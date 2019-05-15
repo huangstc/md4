@@ -245,7 +245,7 @@ int check_condition(CrackContext& cxx, DiffCondition* cnds, int len) {
       case 0:
         if (PICKBIT(cxx.r1[reg][offset], cond.bit) != 0) {
           count++;
-				}
+        }
         break;
       case 1:
         if (PICKBIT(cxx.r1[reg][offset], cond.bit) != 1) {
@@ -326,7 +326,7 @@ DiffCondition g_second_conds[] = {
   {17,	17,	1,	25,	0xff, 0xff},	// a_{5,25} = 1, pattern
   {17,	17,	0,	26,	0xff, 0xff},	// a_{5,26} = 0, pattern
   {17,	17,	1,	28,	0xff, 0xff},	// a_{5,28} = 1, pattern
-  {17,	17,	1,	31,	0xff, 0xff}, // a_{5,31} = 1, pattern
+  {17,	17,	1,	31,	0xff, 0xff},  // a_{5,31} = 1, pattern
   {18,	19,	2,	18,	0,	5},		// d_{5,18} = a_{5,18} in step 19 to avoid b4
   {18,	19,	2,	25,	1,	4},		// d_{5,25} = b_{4,25} in step 19 to avoid a5
   {18,	19,	2,	26,	1,	4},		// d_{5,26} = b_{4,26}
@@ -387,14 +387,14 @@ bool modify_second_round(CrackContext& cxx, DiffCondition& cnd) {
   }
 
   return true;
-//	int rt = check_condition(cxx, g_first_conds,
-//                           sizeof(g_first_conds)/sizeof(DiffCondition));
-
-//	int rt = modify_first_round(cxx, g_first_conds,
-//                              sizeof(g_first_conds)/sizeof(DiffCondition));
-
-//	rt = check_condition(cxx, g_second_conds,
-//                       sizeof(g_second_conds)/sizeof(DiffCondition));
+	/*
+	int rt = check_condition(cxx, g_first_conds,
+                           sizeof(g_first_conds)/sizeof(DiffCondition));
+  int rt = modify_first_round(cxx, g_first_conds,
+                              sizeof(g_first_conds)/sizeof(DiffCondition));
+  rt = check_condition(cxx, g_second_conds,
+                       sizeof(g_second_conds)/sizeof(DiffCondition));
+	*/
 }
 
 int test_output2(CrackContext& cxx) {
@@ -432,193 +432,186 @@ int modify_second_round(CrackContext& cxx, DiffCondition* cnds, int nocond) {
 ////////////////////////////////////////////////////////////
 
 void run(int seed, int iterations) {
-	srand(seed);
+  srand(seed);
 
-	CrackContext cxx;
-	memset(&cxx, 0, sizeof(cxx));
+  CrackContext cxx;
+  memset(&cxx, 0, sizeof(cxx));
 
-	cxx.r1[0][0] = cxx.r2[0][0] = INITIAL_VALUE[0];
-	cxx.r1[1][0] = cxx.r2[1][0] = INITIAL_VALUE[1];
-	cxx.r1[2][0] = cxx.r2[2][0] = INITIAL_VALUE[2];
-	cxx.r1[3][0] = cxx.r2[3][0] = INITIAL_VALUE[3];
+  cxx.r1[0][0] = cxx.r2[0][0] = INITIAL_VALUE[0];
+  cxx.r1[1][0] = cxx.r2[1][0] = INITIAL_VALUE[1];
+  cxx.r1[2][0] = cxx.r2[2][0] = INITIAL_VALUE[2];
+  cxx.r1[3][0] = cxx.r2[3][0] = INITIAL_VALUE[3];
 
-	int i=0;
-	int err_count = 0;
-	for (i=0; (i<iterations) && (err_count<100); i++) {
-		rand_message(cxx.m1);
-		add(cxx.m2, cxx.m1, g_dm, 16);
+  int i=0;
+  int err_count = 0;
+  for (i=0; (i<iterations) && (err_count<100); i++) {
+    rand_message(cxx.m1);
+    add(cxx.m2, cxx.m1, g_dm, 16);
 
-		//////////////////////////////
-		//
+    //////////////////////////////
 		//  First Round Modification
-		//
-		int rt = modify_first_round(cxx, g_first_conds,
-			                          sizeof(g_first_conds) / sizeof(DiffCondition));
-		if (rt < 10000 && rt!=0 )  {  // failed at output
-			OUTPUT_FAILED(rt);
-			err_count++;
-			continue;
-		} else if (rt!=0)   {  // failed at condition rt-1
-			TEST_FAILED(rt);
-			err_count++;
-			continue;
-		}
+    int rt = modify_first_round(cxx, g_first_conds,
+                                sizeof(g_first_conds) / sizeof(DiffCondition));
+    if (rt < 10000 && rt!=0 )  {  // failed at output
+      OUTPUT_FAILED(rt);
+      err_count++;
+      continue;
+    } else if (rt!=0)   {  // failed at condition rt-1
+      TEST_FAILED(rt);
+      err_count++;
+      continue;
+    }
 
 		/////////////////////////////
-		//
 		//  Second Round Modification
-		//
-		rt = modify_second_round(cxx, g_second_conds, 14);
-		/*
-		if (rt<10000 && rt!=0) // failed in output
-		{
-		//	OUTPUT_FAILED(rt);
-		//	err_count++;
-		//	continue;
-		} else if (rt!=0)
-		{
-			// failed at condtion rt-1 ( second round condition index )
-		//	TEST_FAILED(rt);
-		//	err_count++;
-		//	continue; // do nothing now
-		}	*/
+    rt = modify_second_round(cxx, g_second_conds, 14);
+    /*
+    if (rt<10000 && rt!=0)  { // failed in output
+      OUTPUT_FAILED(rt);
+		  err_count++;
+      continue;
+		} else if (rt!=0) {
+      // failed at condtion rt-1 ( second round condition index )
+      TEST_FAILED(rt);
+      err_count++;
+      continue; // do nothing now
+    }
+    */
 
-		////////////////////////////
-		//
-		//  Test if it is a collision
-		//
-		md4(cxx.m1, INITIAL_VALUE, cxx.h1,
-			  cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3]);
-		md4(cxx.m2, INITIAL_VALUE, cxx.h2,
-			  cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3]);
+    ////////////////////////////
+    //  Test if it is a collision
+    md4(cxx.m1, INITIAL_VALUE, cxx.h1,
+        cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3]);
+    md4(cxx.m2, INITIAL_VALUE, cxx.h2,
+        cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3]);
 
-		if (success(cxx)) {
-			CMDLOG("success in " << i << "-th step!");
-			break;
-		}
-		if ((i%100000)==0) {
+    if (success(cxx)) {
+      CMDLOG("success in " << i << "-th step!");
+      break;
+    }
+    if ((i%100000)==0) {
 			CMDLOG("searched " << i << " messages");
-		}
-	}
+    }
+  }
 
-	add(cxx.m2, cxx.m1, g_dm, 16);
+  add(cxx.m2, cxx.m1, g_dm, 16);
 	md4(cxx.m1, INITIAL_VALUE, cxx.h1,
-		  cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3]);
-	md4(cxx.m2, INITIAL_VALUE, cxx.h2,
-		  cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3]);
+      cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3]);
+  md4(cxx.m2, INITIAL_VALUE, cxx.h2,
+      cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3]);
 
-	if (success(cxx)) {
-		CMDLOG("Collision:");
+  if (success(cxx)) {
+    CMDLOG("Collision:");
     dump(cxx, std::cout);
-	}
+  }
 }
 
 void dump(CrackContext& cxx, std::ostream& os) {
-	os << "\nMessage 1 :\n";
-	dump(cxx.m1, 16, os);
+  os << "\nMessage 1 :\n";
+  dump(cxx.m1, 16, os);
 
-	os << "\nMessage 2 :\n";
-	dump(cxx.m2, 16, os);
+  os << "\nMessage 2 :\n";
+  dump(cxx.m2, 16, os);
 
-	os << "\nHash 1 :\n";
-	dump(cxx.h1, 4, os);
+  os << "\nHash 1 :\n";
+  dump(cxx.h1, 4, os);
 
-	os << "\nHash 2 :\n";
-	dump(cxx.h2, 4, os);
+  os << "\nHash 2 :\n";
+  dump(cxx.h2, 4, os);
 
-	/*
-	INT32 da[13], db[13], dc[13], dd[13];
-	minus(da, cxx.r2[0], cxx.r1[0], 13);
-	minus(db, cxx.r2[1], cxx.r1[1], 13);
-	minus(dc, cxx.r2[2], cxx.r1[2], 13);
-	minus(dd, cxx.r2[3], cxx.r1[3], 13);
+  /*
+  INT32 da[13], db[13], dc[13], dd[13];
+  minus(da, cxx.r2[0], cxx.r1[0], 13);
+  minus(db, cxx.r2[1], cxx.r1[1], 13);
+  minus(dc, cxx.r2[2], cxx.r1[2], 13);
+  minus(dd, cxx.r2[3], cxx.r1[3], 13);
 
-	std::cout << "da :\n"; dump(da+1, 12);
-	std::cout << "db :\n"; dump(db+1, 12);
-	std::cout << "dc :\n"; dump(dc+1, 12);
-	std::cout << "dd :\n"; dump(dd+1, 12);
-	*/
+  std::cout << "da :\n"; dump(da+1, 12);
+  std::cout << "db :\n"; dump(db+1, 12);
+  std::cout << "dc :\n"; dump(dc+1, 12);
+  std::cout << "dd :\n"; dump(dd+1, 12);
+  */
 }
 
 void select_md4(CrackContext& cxx, int step) {
-	switch (step) {
-	case 1:
-		STEP01(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP01(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 2:
-		STEP02(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP02(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 3:
-		STEP03(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP03(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 4:
-		STEP04(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP04(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 5:
-		STEP05(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP05(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 6:
-		STEP06(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP06(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 7:
-		STEP07(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP07(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 8:
-		STEP08(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP08(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 9:
-		STEP09(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP09(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 10:
-		STEP10(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP10(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 11:
-		STEP11(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP11(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 12:
-		STEP12(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP12(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 13:
-		STEP13(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP13(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 14:
-		STEP14(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP14(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 15:
-		STEP15(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP15(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 16:
-		STEP16(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP16(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 17:
-		STEP17(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP17(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 18:
-		STEP18(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP18(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	case 19:
-		STEP19(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
-		STEP19(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
-		break;
-	default:
-		return;
-	}
+  switch (step) {
+    case 1:
+      STEP01(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP01(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 2:
+      STEP02(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP02(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 3:
+      STEP03(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP03(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 4:
+      STEP04(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP04(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 5:
+      STEP05(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP05(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 6:
+      STEP06(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP06(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 7:
+      STEP07(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP07(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 8:
+      STEP08(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP08(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 9:
+      STEP09(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP09(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 10:
+      STEP10(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP10(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 11:
+      STEP11(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP11(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 12:
+      STEP12(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP12(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 13:
+      STEP13(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP13(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 14:
+      STEP14(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP14(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 15:
+      STEP15(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP15(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 16:
+      STEP16(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP16(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 17:
+      STEP17(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP17(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 18:
+      STEP18(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP18(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    case 19:
+      STEP19(cxx.r1[0], cxx.r1[1], cxx.r1[2], cxx.r1[3], cxx.m1);
+      STEP19(cxx.r2[0], cxx.r2[1], cxx.r2[2], cxx.r2[3], cxx.m2);
+      break;
+    default:
+      return;
+  }
 }
