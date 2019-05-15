@@ -5,18 +5,18 @@
 #include "md4.h"
 
 struct CrackContext {
-	INT32 m1[16], m2[16];
-	INT32 r1[4][13], r2[4][13];
-	INT32 h1[4], h2[4];
+  INT32 m1[16], m2[16];
+  INT32 r1[4][13], r2[4][13];
+  INT32 h1[4], h2[4];
 };
 
 struct DiffCondition {
-	int step;
-	int rstep; // require by rstep, not important, just a note
-	int type;  // 0, 1, 2(=), 3(+1)
-	int bit;   // the bit position
-	int ref1;   // only required by type 2 and 3
-	int ref2;	// only required by type 2 and 3
+  int step;
+  int rstep; // require by rstep, not important, just a note
+  int type;  // 0, 1, 2(=), 3(+1)
+  int bit;   // the bit position
+  int ref1;   // only required by type 2 and 3
+  int ref2;	// only required by type 2 and 3
 };
 
 void select_md4(CrackContext& ctx, int step);
