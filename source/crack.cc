@@ -55,7 +55,7 @@ const INT32 g_rotation[2][4] = {{3, 7, 11, 19}, { 3, 5, 9, 13}};
   } while(0)
 
 #define OUTPUT_FAILED(i) do {                             \
-	  std::cout << "output failed at step " << i <<  "\n";  \
+    std::cout << "output failed at step " << i <<  "\n";  \
   } while(0)
 
 // pick the s-th bit of x, from 0 - 31.
@@ -86,108 +86,108 @@ inline bool success(CrackContext& cxx) {
 //
 DiffCondition g_first_conds[] = {
 // step	  rstep	type bit ref1 ref2
-  {1,  3,	2,	6,	1,	0},		// No.0
-  {2,  4,	2,	7,	0,	1},		// d_{1,7} = a_{1,7}, for Step 4
-  {2,  4,	2,	10,	0,	1},		// d_{1,10} = a_{1,10}, for Step 4
-  {2,  2,	0,	6,	0xff, 0xff},	// d_{1,6} = 0
-  {3,	 5,	2,	25,	3,	1},
-  {3,	 4,	1,	6,	0xff, 0xff},	// c_{1,6} = 1, for Step 4
-  {3,  3,	1,	7,	0xff, 0xff},	// c_{1,7} = 1
-  {3,  3,	0,	10,	0xff, 0xff},	// c_{1,10} = 0
-  {4,  4,	0,	25,	0xff, 0xff},	// b_{1,25}=0
-  {4,  5,	1,	6,	0xff, 0xff}, // b_{1,6}=1, for Step 5 avoid \delta d_1
-  {4,  5,	0,	7,	0xff, 0xff},	// b_{1,7}=0, for Step 5 avoid \delta c_1
-  {4,  5,	0,	10,	0xff, 0xff},	// b_{1,10}=0, for Step 5
-  {5,  6,	1,	7,	0xff, 0xff},	// a_{2,7}=1, for Step 6 to eliminate \delta c_1
-  {5,  6,	1,	10,	0xff, 0xff},	// a_{2,10}=1, for Step 6
-  {5,  7,	2,	13,	1,	1},		// a_{2,13}=b_{1,13}, for Step 7
-  {5,  6,	0,	25,	0xff, 0xff},	// a_{2,25}=0, for Step 6
-  {6,  6,	0,	13,	0xff, 0xff},	// d_{2,13} = 0, pattern
-  {6,  7,	1,	25,	0xff, 0xff},	// d_{2,25} = 1, for step 7 avoid b1
-  {6,  8,	2,	18,	0,	2},		// d_{2,18} == a_{2,18}, for Step 8 avoid c2
-  {6,  8,	2,	19,	0,	2},		// d_{2,19} == a_{2,19}, for Step 8 avoid c2
-  {6,  8,	2,	20,	0,	2},		// d_{2,20} == a_{2,20}, for Step 8 avoid c2
-  {6,  8,	2,	21,	0,	2},		// d_{2,21} == a_{2,21}, for Step 8 avoid c2
-  {7,  8,	0,	13,	0xff, 0xff},	// c_{2,13}=0, for step 8 avoid d2
-  {7,  7,	0,	18,	0xff, 0xff},	// c_{2,18}=0, pattern
-  {7,  7,	0,	19,	0xff, 0xff},	// c_{2,19}=0, pattern
-  {7,  7,	1,	20,	0xff, 0xff},	// c_{2,20}=1, pattern
-  {7,  7,	0,	21,	0xff, 0xff},	// c_{2,21}=0, pattern
-  {7,  9,	2,	12,	3,	2},		// c_{2,12}=d_{2,12}, for step 9 avoid b2
-  {7,  9,	2,	14,	3,	2},		// c_{2,14}=d_{2,14}, for step 9 avoid b2
-  {8,  8,	1,	12,	0xff, 0xff},	// b_{2,12} = 1, pattern
-  {8,  8,	1,	13,	0xff, 0xff},	// b_{2,13} = 1, pattern
-  {8,  8,	0,	14,	0xff, 0xff},	// b_{2,14} = 0, pattern
-  {8,  10,	2,	16,	2,	2},		// b_{2,16} = c_{2,16} for step 10 avoid a3
-  {8,  9,	0,	18,	0xff, 0xff},	// b_{2,18} = 0, for step 9 avoid c2
-  {8,  9,	0,	19,	0xff, 0xff},	// b_{2,19} = 0, for step 9 avoid c2
-  {8,  9,	0,	20,	0xff, 0xff},	// b_{2,20} = 0, for step 9 avoid c2
-  {8,  9,	0,	21,	0xff, 0xff},	// b_{2,21} = 0, for step 9 avoid c2
-  {9,  10,	1,	12,	0xff, 0xff}, // a_{3,12} = 1, for step 10, ???
-  {9,  10,	1,	13,	0xff, 0xff}, // a_{3,13} = 1, for step 10, ???
-  {9,  10,	1,	14,	0xff, 0xff}, // a_{3,14} = 1, for step 10, ???
-  {9,  9,	0,	16,	0xff, 0xff}, // a_{3,16} = 0, pattern
-  {9,  10,	0,	18,	0xff, 0xff}, // a_{3,18} = 0, for step 10, ???
-  {9,  10,	0,	19,	0xff, 0xff}, // a_{3,19} = 0, for step 10, ??????
+  {1,  3,  2,  6,  1,    0},     // No.0
+  {2,  4,  2,  7,  0,    1},     // d_{1,7} = a_{1,7}, for Step 4
+  {2,  4,  2,	10,  0,    1},     // d_{1,10} = a_{1,10}, for Step 4
+  {2,  2,  0,  6,  0xff, 0xff},  // d_{1,6} = 0
+  {3,  5,  2, 25,  3,    1},
+  {3,  4,  1,  6,  0xff, 0xff},  // c_{1,6} = 1, for Step 4
+  {3,  3,  1,  7,  0xff, 0xff},  // c_{1,7} = 1
+  {3,  3,  0,	10,	0xff, 0xff},	// c_{1,10} = 0
+  {4,  4,  0,	25,	0xff, 0xff},	// b_{1,25}=0
+  {4,  5,  1,	6,	0xff, 0xff}, // b_{1,6}=1, for Step 5 avoid \delta d_1
+  {4,  5,  0,	7,	0xff, 0xff},	// b_{1,7}=0, for Step 5 avoid \delta c_1
+  {4,  5,  0,	10,	0xff, 0xff},	// b_{1,10}=0, for Step 5
+  {5,  6,  1,	7,	0xff, 0xff},	// a_{2,7}=1, for Step 6 to eliminate \delta c_1
+  {5,  6,  1,	10,	0xff, 0xff},	// a_{2,10}=1, for Step 6
+  {5,  7,  2,	13,	1,	1},		// a_{2,13}=b_{1,13}, for Step 7
+  {5,  6,  0,	25,	0xff, 0xff},	// a_{2,25}=0, for Step 6
+  {6,  6,  0,	13,	0xff, 0xff},	// d_{2,13} = 0, pattern
+  {6,  7,  1,	25,	0xff, 0xff},	// d_{2,25} = 1, for step 7 avoid b1
+  {6,  8,  2,	18,	0,	2},		// d_{2,18} == a_{2,18}, for Step 8 avoid c2
+  {6,  8,  2,	19,	0,	2},		// d_{2,19} == a_{2,19}, for Step 8 avoid c2
+  {6,  8,  2,	20,	0,	2},		// d_{2,20} == a_{2,20}, for Step 8 avoid c2
+  {6,  8,  2,	21,	0,	2},		// d_{2,21} == a_{2,21}, for Step 8 avoid c2
+  {7,  8,  0,	13,	0xff, 0xff},	// c_{2,13}=0, for step 8 avoid d2
+  {7,  7,  0,	18,	0xff, 0xff},	// c_{2,18}=0, pattern
+  {7,  7,  0,	19,	0xff, 0xff},	// c_{2,19}=0, pattern
+  {7,  7,  1,	20,	0xff, 0xff},	// c_{2,20}=1, pattern
+  {7,  7,  0,	21,	0xff, 0xff},	// c_{2,21}=0, pattern
+  {7,  9,  2,	12,	3,	2},		// c_{2,12}=d_{2,12}, for step 9 avoid b2
+  {7,  9,  2,	14,	3,	2},		// c_{2,14}=d_{2,14}, for step 9 avoid b2
+  {8,  8,  1,	12,	0xff, 0xff},	// b_{2,12} = 1, pattern
+  {8,  8,  1,	13,	0xff, 0xff},	// b_{2,13} = 1, pattern
+  {8,  8,  0,	14,	0xff, 0xff},	// b_{2,14} = 0, pattern
+  {8,  10, 2,	16,	2,	2},		// b_{2,16} = c_{2,16} for step 10 avoid a3
+  {8,  9,  0,	18,	0xff, 0xff},	// b_{2,18} = 0, for step 9 avoid c2
+  {8,  9,  0,	19,	0xff, 0xff},	// b_{2,19} = 0, for step 9 avoid c2
+  {8,  9,  0,	20,	0xff, 0xff},	// b_{2,20} = 0, for step 9 avoid c2
+  {8,  9,  0,	21,	0xff, 0xff},	// b_{2,21} = 0, for step 9 avoid c2
+  {9,  10, 1,	12,	0xff, 0xff}, // a_{3,12} = 1, for step 10, ???
+  {9,  10, 1,	13,	0xff, 0xff}, // a_{3,13} = 1, for step 10, ???
+  {9,  10, 1,	14,	0xff, 0xff}, // a_{3,14} = 1, for step 10, ???
+  {9,  9,  0,	16,	0xff, 0xff}, // a_{3,16} = 0, pattern
+  {9,  10, 0,	18,	0xff, 0xff}, // a_{3,18} = 0, for step 10, ???
+  {9,  10, 0,	19,	0xff, 0xff}, // a_{3,19} = 0, for step 10, ??????
 // {9,  11, 2,	19,	1,	2},		// a_{3,19} = b_{2,19}=0, for step 11 avoid d3
-  {9,  10,	0,	20,	0xff, 0xff}, // a_{3,20} = 0, for step 10, ??????
+  {9,  10, 0,	20,	0xff, 0xff}, // a_{3,20} = 0, for step 10, ??????
 // {9,  11, 2,	20,	1,	2},		// a_{3,20} = b_{2,20}=0, for step 11 avoid d3
-  {9,  10,	1,	21,	0xff, 0xff}, // a_{3,21} = 1, for step 10, ??????
-// {9,  11,	3,	21,	1,	2},		// a_{3,21} = b_{2,21}+1=1, for step 11 avoid d3
+  {9,  10, 1,	21,	0xff, 0xff}, // a_{3,21} = 1, for step 10, ??????
+// {9,  11, 3,	21,	1,	2},		// a_{3,21} = b_{2,21}+1=1, for step 11 avoid d3
   {9,  11, 2,	22,	1,	2},		// a_{3,22} = b_{2,22} for step 11 avoid d3
   {9,  11, 2,	25,	1,	2},		// a_{3,25} = b_{2,25} for step 11 avoid d3
-  {10, 11,	1,	12,	0xff, 0xff},	// d_{3,12} = 1 for step 11 avoid b2
-  {10, 11,	1,	13,	0xff, 0xff},	// d_{3,13} = 1 for step 11 avoid b2
-  {10, 11,	1,	14,	0xff, 0xff}, // d_{3,14} = 1 for step 11 avoid b2
-  {10, 11,	0,	16,	0xff, 0xff}, // d_{3,16} = 0, for step 11 avoid a3
-  {10, 10,	0,	19,	0xff, 0xff},	// d_{3,19} = 0, pattern
-  {10, 10,	1,	20,	0xff, 0xff},	// d_{3,20} = 1, pattern
-  {10, 10,	1,	21,	0xff, 0xff},	// d_{3,21} = 1, pattern
-  {10, 10,	0,	22,	0xff, 0xff},	// d_{3,22} = 0, pattern
+  {10, 11, 1,	12,	0xff, 0xff},	// d_{3,12} = 1 for step 11 avoid b2
+  {10, 11, 1,	13,	0xff, 0xff},	// d_{3,13} = 1 for step 11 avoid b2
+  {10, 11, 1,	14,	0xff, 0xff}, // d_{3,14} = 1 for step 11 avoid b2
+  {10, 11, 0,	16,	0xff, 0xff}, // d_{3,16} = 0, for step 11 avoid a3
+  {10, 10, 0,	19,	0xff, 0xff},	// d_{3,19} = 0, pattern
+  {10, 10, 1,	20,	0xff, 0xff},	// d_{3,20} = 1, pattern
+  {10, 10, 1,	21,	0xff, 0xff},	// d_{3,21} = 1, pattern
+  {10, 10, 0,	22,	0xff, 0xff},	// d_{3,22} = 0, pattern
   {10, 10, 1,	25,	0xff, 0xff},	// d_{3,25} = 1, pattern
-  {10, 12,	2,	29,	0,	3},		// d_{3,29} = a_{3,29}, for step 12 avoid c3
-  {11, 12,	1,	16,	0xff, 0xff}, // c_{3,16} = 1, for step 12 avoid a3
-  {11, 12,	0,	19,	0xff, 0xff}, // c_{3,19} = 0, for step 12 avoid d3
-  {11, 12,	0,	20,	0xff, 0xff}, // c_{3,20} = 0, for step 12 avoid d3
-  {11, 12,	0,	21,	0xff, 0xff}, // c_{3,21} = 0, for step 12 avoid d3
-  {11, 12,	0,	22,	0xff, 0xff}, // c_{3,22} = 0, for step 12 avoid d3
-  {11, 12,	0,	25,	0xff, 0xff}, // c_{3,25} = 0, for step 12 avoid d3
-  {11, 11,	1,	29,	0xff, 0xff},	// c_{3,29} = 1, pattern
-  {11, 13,	2,	31,	3,	3},		// c_{3,31} = d_{3,31}, step 13 avoid b3
-  {12, 13,	0,	19,	0xff, 0xff},	// b_{3,19} = 0, for step 13 produce 2^22
-  {12, 13,	1,	20, 0xff, 0xff}, // b_{3,20} = 1, for step 13 avoid d3
-  {12, 13,	1,	21,	0xff, 0xff}, // b_{3,21} = 1, for step 13 avoid d3
-  {12, 13,	0,	22,	0xff, 0xff}, // b_{3,22} = 0, for step 13 produce 2^25
-// {12, 14,	2,	22,	2,	3},		// b_{3,22} = c_{3,22} = 0, for step 14 avoid a4
-  {12, 13,	1,	25,	0xff, 0xff},	// b_{3,25} = 1, for step 13 avoid d3
-// {12, 14,	3,	25,	2,	3},		// b_{3,25} = c_{3,25} + 1=1, for step 14 eliminate 2^25
-  {12, 13,	0,	29,	0xff, 0xff},	// b_{3,29} = 0, for step 13 avoid c3
-  {12, 12,	0,	31,	0xff, 0xff},	// b_{3,31} = 0, pattern
-  {13, 13,	0,	22,	0xff, 0xff}, // a_{4,22} = 0, pattern
-  {13, 13,	0,	25,	0xff, 0xff}, // a_{4,25} = 0, pattern
-  {13, 15,	2,	26,	1,	3},		// a_{4,26} = b_{3,26}, for step 15 avoid d4
-  {13, 15,	2,	28,	1,	3},		// a_{4,28} = b_{3,28}, for step 15 avoid d4
-  {13, 14,	1,	29,	0xff, 0xff}, // a_{4,29} = 1, for step 14 avoid b3
-// {13, 15,	3,	29,	1,	3},		// a_{4,29} = b_{3,29}+1=1, for step 15 eliminate -2^29
-  {13, 14,	0,	31,	0xff, 0xff}, // a_{4,31} = 0, for step 14 avoid c3
-  {14, 15,	0,	22,	0xff, 0xff}, // d_{4,22} = 0, for step 15 avoid a4
-  {14, 15,	0,	25,	0xff, 0xff}, // d_{4,25} = 0, for step 15 avoid a4
-  {14, 14,	1,	26,	0xff, 0xff}, // d_{4,26} = 1, pattern
-  {14, 14,	1,	28,	0xff, 0xff}, // d_{4,28} = 1, pattern
-  {14, 14,	0,	29,	0xff, 0xff}, // d_{4,29} = 0, pattern
-  {14, 15,	1,	31,	0xff, 0xff}, // d_{4,31} = 1, for step 15 avoid b3
-  {15, 17,	2,	18,	3,	4},		// c_{4,18} = d_{4,18}, for step 17 ???
-  {15, 16,	1,	22,	0xff, 0xff},	// c_{4,22} = 1, for step 16 avoid a4
-  {15, 16,	1,	25,	0xff, 0xff},	// c_{4,25} = 1, for step 16 avoid a4
-  {15, 16,	0,	26,	0xff, 0xff},	// c_{4,26} = 0, for step 16 avoid d4
-  {15, 16,	0,	28,	0xff, 0xff},	// c_{4,28} = 0, for step 16 avoid d4
-  {15, 16,	0,	29,	0xff, 0xff},	// c_{4,29} = 0, for step 16 avoid d4
-  {16, 17,	2,	25,	2,	4},	// b_{4,25} = c_{4,25}=1, for step 18 ???
-  {16, 17,	3,	26,	2,	4},	// b_{4,26} = c_{4,26}+1=1, for step 17&18 ???
-  {16, 17,	3,	28,	2,	4},	// b_{4,28} = c_{4,28}+1=1, for step 17&18 ???
-  {16, 17,	2,	29,	2,	4},	// b_{4,29} = c_{4,29}=0, for step 17 ???
-  {16, 17,	2,	31,	2,	4},	// b_{4,31} = c_{4,31}, for step 18 ???
-  {16, 16,	0,	18, 0xff, 0xff}	// b_{4,18} = 0, pattern
+  {10, 12, 2,	29,	0,	3},		// d_{3,29} = a_{3,29}, for step 12 avoid c3
+  {11, 12, 1,	16,	0xff, 0xff}, // c_{3,16} = 1, for step 12 avoid a3
+  {11, 12, 0,	19,	0xff, 0xff}, // c_{3,19} = 0, for step 12 avoid d3
+  {11, 12, 0,	20,	0xff, 0xff}, // c_{3,20} = 0, for step 12 avoid d3
+  {11, 12, 0,	21,	0xff, 0xff}, // c_{3,21} = 0, for step 12 avoid d3
+  {11, 12, 0,	22,	0xff, 0xff}, // c_{3,22} = 0, for step 12 avoid d3
+  {11, 12, 0,	25,	0xff, 0xff}, // c_{3,25} = 0, for step 12 avoid d3
+  {11, 11, 1,	29,	0xff, 0xff},	// c_{3,29} = 1, pattern
+  {11, 13, 2,	31,	3,	3},		// c_{3,31} = d_{3,31}, step 13 avoid b3
+  {12, 13, 0,	19,	0xff, 0xff},	// b_{3,19} = 0, for step 13 produce 2^22
+  {12, 13, 1,	20, 0xff, 0xff}, // b_{3,20} = 1, for step 13 avoid d3
+  {12, 13, 1,	21,	0xff, 0xff}, // b_{3,21} = 1, for step 13 avoid d3
+  {12, 13, 0,	22,	0xff, 0xff}, // b_{3,22} = 0, for step 13 produce 2^25
+// {12, 14, 2,	22,	2,	3},		// b_{3,22} = c_{3,22} = 0, for step 14 avoid a4
+  {12, 13, 1,	25,	0xff, 0xff},	// b_{3,25} = 1, for step 13 avoid d3
+// {12, 14, 3,	25,	2,	3},		// b_{3,25} = c_{3,25} + 1=1, for step 14 eliminate 2^25
+  {12, 13, 0,	29,	0xff, 0xff},	// b_{3,29} = 0, for step 13 avoid c3
+  {12, 12, 0,	31,	0xff, 0xff},	// b_{3,31} = 0, pattern
+  {13, 13, 0,	22,	0xff, 0xff}, // a_{4,22} = 0, pattern
+  {13, 13, 0,	25,	0xff, 0xff}, // a_{4,25} = 0, pattern
+  {13, 15, 2,	26,	1,	3},		// a_{4,26} = b_{3,26}, for step 15 avoid d4
+  {13, 15, 2,	28,	1,	3},		// a_{4,28} = b_{3,28}, for step 15 avoid d4
+  {13, 14, 1,	29,	0xff, 0xff}, // a_{4,29} = 1, for step 14 avoid b3
+// {13, 15, 3,	29,	1,	3},		// a_{4,29} = b_{3,29}+1=1, for step 15 eliminate -2^29
+  {13, 14, 0,	31,	0xff, 0xff}, // a_{4,31} = 0, for step 14 avoid c3
+  {14, 15, 0,	22,	0xff, 0xff}, // d_{4,22} = 0, for step 15 avoid a4
+  {14, 15, 0,	25,	0xff, 0xff}, // d_{4,25} = 0, for step 15 avoid a4
+  {14, 14, 1,	26,	0xff, 0xff}, // d_{4,26} = 1, pattern
+  {14, 14, 1,	28,	0xff, 0xff}, // d_{4,28} = 1, pattern
+  {14, 14, 0,	29,	0xff, 0xff}, // d_{4,29} = 0, pattern
+  {14, 15, 1,	31,	0xff, 0xff}, // d_{4,31} = 1, for step 15 avoid b3
+  {15, 17, 2,	18,	3,	4},		// c_{4,18} = d_{4,18}, for step 17 ???
+  {15, 16, 1,	22,	0xff, 0xff},	// c_{4,22} = 1, for step 16 avoid a4
+  {15, 16, 1,	25,	0xff, 0xff},	// c_{4,25} = 1, for step 16 avoid a4
+  {15, 16, 0,	26,	0xff, 0xff},	// c_{4,26} = 0, for step 16 avoid d4
+  {15, 16, 0,	28,	0xff, 0xff},	// c_{4,28} = 0, for step 16 avoid d4
+  {15, 16, 0,	29,	0xff, 0xff},	// c_{4,29} = 0, for step 16 avoid d4
+  {16, 17, 2,	25,	2,	4},	// b_{4,25} = c_{4,25}=1, for step 18 ???
+  {16, 17, 3,	26,	2,	4},	// b_{4,26} = c_{4,26}+1=1, for step 17&18 ???
+  {16, 17, 3,	28,	2,	4},	// b_{4,28} = c_{4,28}+1=1, for step 17&18 ???
+  {16, 17, 2,	29,	2,	4},	// b_{4,29} = c_{4,29}=0, for step 17 ???
+  {16, 17, 2,	31,	2,	4},	// b_{4,31} = c_{4,31}, for step 18 ???
+  {16, 16, 0,	18, 0xff, 0xff}	// b_{4,18} = 0, pattern
 };
 
 bool __modify_type_01(CrackContext& cxx, DiffCondition& cond, INT32 sw) {
@@ -478,9 +478,9 @@ void run(int seed, int iterations) {
     /*
     if (rt<10000 && rt!=0)  { // failed in output
       OUTPUT_FAILED(rt);
-		  err_count++;
+    err_count++;
       continue;
-		} else if (rt!=0) {
+  } else if (rt!=0) {
       // failed at condtion rt-1 ( second round condition index )
       TEST_FAILED(rt);
       err_count++;
