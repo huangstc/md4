@@ -23,11 +23,6 @@ void select_md4(CrackContext& ctx, int step);
 void dump(CrackContext& ctx, std::ostream& os = std::cout);
 void run(int seed, int iterations);
 
-// pick the s-th bit of x, from 0 - 31.
-#define PICKBIT(x,s)	(((x)>>(s)) & 0x0001)
-
-#define FLIP_BIT(x,s)   ((x)^=(0x01 << (s)))
-
 // generate a 512-bit random message.
 void rand_message(INT32* m);
 
