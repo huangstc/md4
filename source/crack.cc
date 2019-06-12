@@ -24,7 +24,7 @@ void add(INT32* sum, const INT32* s1, const INT32* s2, size_t len) {
   }
 }
 
-//	Global Constants
+// Global Constants
 const INT32 g_dm[16] = {
     0x00000000, 0x80000000, 0x70000000, 0,
     0, 0, 0, 0,
@@ -45,7 +45,7 @@ const INT32 g_mes_index[] = {
 
 const INT32 g_rotation[2][4] = {{3, 7, 11, 19}, { 3, 5, 9, 13}};
 
-//  Macros and Inline Functions
+// Macros and Inline Functions
 #define CMDLOG(str) do {       \
     std::cout << str << "\n";  \
   } while(0)
@@ -100,7 +100,7 @@ DiffCondition g_first_conds[] = {
   {5,  6,  1,  10, 0xff, 0xff},   // a_{2,10}=1, for Step 6
   {5,  7,  2,  13, 1,    1},      // a_{2,13}=b_{1,13}, for Step 7
   {5,  6,  0,  25, 0xff, 0xff},   // a_{2,25}=0, for Step 6
-  {6,  6,  0,  13, 0xff, 0xff}, 	// d_{2,13} = 0, pattern
+  {6,  6,  0,  13, 0xff, 0xff},   // d_{2,13} = 0, pattern
   {6,  7,  1,  25, 0xff, 0xff},   // d_{2,25} = 1, for step 7 avoid b1
   {6,  8,  2,  18, 0,    2},      // d_{2,18} == a_{2,18}, for Step 8 avoid c2
   {6,  8,  2,  19, 0,    2},      // d_{2,19} == a_{2,19}, for Step 8 avoid c2
@@ -129,9 +129,9 @@ DiffCondition g_first_conds[] = {
   {9,  10, 0,  19, 0xff, 0xff},   // a_{3,19} = 0, for step 10, ??????
 // {9,  11, 2,  19, 1,  2},       // a_{3,19} = b_{2,19}=0, for step 11 avoid d3
   {9,  10, 0,  20, 0xff, 0xff},   // a_{3,20} = 0, for step 10, ??????
-// {9,  11, 2, 20, 1, 2},		// a_{3,20} = b_{2,20}=0, for step 11 avoid d3
+// {9,  11, 2, 20, 1, 2},  // a_{3,20} = b_{2,20}=0, for step 11 avoid d3
   {9,  10, 1,  21, 0xff, 0xff},   // a_{3,21} = 1, for step 10, ??????
-// {9,  11, 3, 21, 1, 2},		// a_{3,21} = b_{2,21}+1=1, for step 11 avoid d3
+// {9,  11, 3, 21, 1, 2},  // a_{3,21} = b_{2,21}+1=1, for step 11 avoid d3
   {9,  11, 2,  22, 1,    2},      // a_{3,22} = b_{2,22} for step 11 avoid d3
   {9,  11, 2,  25, 1,    2},      // a_{3,25} = b_{2,25} for step 11 avoid d3
   {10, 11, 1,  12, 0xff, 0xff},   // d_{3,12} = 1 for step 11 avoid b2
@@ -166,7 +166,7 @@ DiffCondition g_first_conds[] = {
   {13, 15, 2,  26, 1,    3},      // a_{4,26} = b_{3,26}, for step 15 avoid d4
   {13, 15, 2,  28, 1,    3},      // a_{4,28} = b_{3,28}, for step 15 avoid d4
   {13, 14, 1,  29, 0xff, 0xff},   // a_{4,29} = 1, for step 14 avoid b3
-// {13, 15, 3,	29,	1,	3},  // a_{4,29} = b_{3,29}+1=1, for step 15 eliminate -2^29
+// {13, 15, 3,	29, 1, 3},  // a_{4,29} = b_{3,29}+1=1, for step 15 eliminate -2^29
   {13, 14, 0,  31, 0xff, 0xff},   // a_{4,31} = 0, for step 14 avoid c3
   {14, 15, 0,  22, 0xff, 0xff},   // d_{4,22} = 0, for step 15 avoid a4
   {14, 15, 0,  25, 0xff, 0xff},   // d_{4,25} = 0, for step 15 avoid a4
@@ -193,7 +193,7 @@ bool __modify_type_01(CrackContext& cxx, DiffCondition& cond, INT32 sw) {
   INT32 offset = OFFSET(cond.step);
 
   if (PICKBIT(cxx.r1[reg][offset], cond.bit)==sw) {
-    return true;	// success
+    return true;  // success
   }
 
   INT32 rnd = 0;
@@ -472,9 +472,9 @@ void run(int seed, int iterations) {
     /*
     if (rt<10000 && rt!=0)  { // failed in output
       OUTPUT_FAILED(rt);
-    err_count++;
+      err_count++;
       continue;
-  } else if (rt!=0) {
+    } else if (rt!=0) {
       // failed at condtion rt-1 ( second round condition index )
       TEST_FAILED(rt);
       err_count++;
